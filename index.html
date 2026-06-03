@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contato</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#111827;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    margin:0;
+}
+
+.form-box{
+    background:#1f2937;
+    padding:30px;
+    border-radius:15px;
+    width:100%;
+    max-width:450px;
+    box-shadow:0 0 20px rgba(0,0,0,.3);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input, textarea{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:none;
+    border-radius:8px;
+    box-sizing:border-box;
+}
+
+textarea{
+    resize:none;
+    height:120px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#2563eb;
+}
+
+#resultado{
+    margin-top:15px;
+    text-align:center;
+}
+</style>
+
+</head>
+<body>
+
+<div class="form-box">
+    <h2>Entre em Contato</h2>
+
+    <form action="https://api.web3forms.com/submit" method="POST">
+  <input type="hidden" name="access_key" value="5c580c64-34ce-4698-88a2-cc666f1997c0">
+  <input type="text" name="name" required>
+  <input type="email" name="email" required>
+  <textarea name="message" required></textarea>
+  <button type="submit">Submit Form</button>
+    </form>
+    <div id="resultado"></div>
+</div>
+
+<script>
+const form = document.getElementById("formulario");
+const resultado = document.getElementById("resultado");
+
+form.addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    resultado.innerHTML = "Enviando...";
+
+    const dados = new FormData(form);
+
+    const response = await fetch(
+        "https://api.web3forms.com/submit",
+        {
+            method: "POST",
+            body: dados
+        }
+    );
+
+    const data = await response.json();
+
+    if(data.success){
+        resultado.innerHTML = "✅ Mensagem enviada com sucesso!";
+        form.reset();
+    }else{
+        resultado.innerHTML = "❌ Erro ao enviar.";
+    }
+});
+</script>
+
+</body>
+</html>
